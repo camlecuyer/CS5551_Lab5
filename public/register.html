@@ -5,14 +5,13 @@
     <title>Register Page Lab5</title>
 </head>
 <body ng-controller="registerController">
-    <div>
-        <div>
-            <h1>Enter Your Search</h1>
-            <input type="text" id="txt_mobile" placeholder="Mobile Phone" />
-            <input type="button" name="Search" value="Search" ng-click="searchData()"/>
-        </div>
+    <div id="registerContainer">
+        <h1>Register:</h1>
+        <input type="text" id="txt_userid" placeholder="Enter Username"/>
+        <input type="password" id="txt_userpass" placeholder="Enter Password"/>
+        <button id="btn_register" ng-click="register()">Register</button>
     </div>
-<script type="text/javascript" src="http://code.angularjs.org/1.6.4/angular.js"></script>
-<script src="app.js"></script>
+    <script type="text/javascript" src="http://code.angularjs.org/1.6.4/angular.js"></script>
+    <script src="app.js"></script>
 </body>
 </html>

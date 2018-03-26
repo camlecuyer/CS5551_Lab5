@@ -11,11 +11,14 @@
 </head>
 <body class="body">
   <div  ng-controller="loginCtrl">
-    <div id="div_LoginContainer">
+    <div id="LoginContainer">
       <h1>Login:</h1>
-      <input type="text" id="txt_userid" placeholder="Enter you Username"/>
-      <input type="text" id="txt_userpass" placeholder="Enter you Password"/>
-      <button id="btn_getReview" ng-click="login()">Get Clothes</button>
+      <input type="text" id="txt_userid" placeholder="Enter Username"/>
+      <input type="password" id="txt_userpass" placeholder="Enter Password"/>
+      <button id="btn_login" ng-click="login()">Login</button>
+    </div>
+    <div id="registerLinkContainer">
+      <a href="register.html">Register</a>
     </div>
   </div>
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular.js"></script>

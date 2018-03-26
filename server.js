@@ -25,75 +25,112 @@ app.get('/', function(req, res) {
     res.render('index');
 });
 
-app.post('/register/*', function (req, res) {
-    var pathname = url.parse(req.url).pathname;
-    var data = pathname.substr(10, pathname.length - 1);
-
-    MongoClient.connect(urlDB, function(err, client) {
-        var db = client.db('clock');
-        if(err)
-        {
-            res.write("Failed, Error while connecting to Database");
-            res.end();
-        }
-        findUserwithMobile(db, data, function() {
-            console.log("Successfully selected");
-            client.close();
-        });
-    });
-});
-
 app.post('/login/*', function (req, res) {
     var pathname = url.parse(req.url).pathname;
     var userStart = pathname.indexOf("u=");
     var userEnd = pathname.indexOf("&p=");
-    var user = pathname.substr(userStart+2, pathname - userEnd);
-    var password = pathname.substr(userEnd+3, pathname.length - 1);
+    var user = pathname.substring(userStart+2, userEnd);
+    var password = pathname.substring(userEnd+3, pathname.length);
 
-    console.log(user);
-    console.log(password);
+    //console.log(user);
+    //console.log(password);
 
-    /*MongoClient.connect(urlDB, function(err, client) {
+    MongoClient.connect(urlDB, function(err, client) {
         var db = client.db('clock');
+
         if(err)
         {
             res.write("Failed, Error while connecting to Database");
             res.end();
         }
-        findUserwithMobile(db, data, function() {
-            console.log("Successfully selected");
-            client.close();
+
+        db.collection('lab5').findOne({Username: user}, function(err, doc) {
+            if(doc == null)
+            {
+                client.close();
+                console.log("fail");
+                res.send("fail");
+            }
+            assert.equal(err,null);
+
+            if(doc != null)
+            {
+                if(doc.Username == user && doc.Password == password)
+                {
+                    client.close();
+                    console.log("success");
+                    res.send("success");
+                }
+                else
+                {
+                    client.close();
+                    console.log("noMatch");
+                    res.send("noMatch");
+                }
+            }
         });
-    });*/
+
+        /*cursor.each(function(err,doc) {
+            if(doc == null)
+            {
+                client.close();
+                console.log("fail");
+                res.send("fail");
+                return;
+            }
+            assert.equal(err,null);
+
+            if(doc != null)
+            {
+                if(doc.Username == user && doc.Password == password)
+                {
+                    client.close();
+                    console.log("success");
+                    res.send("success");
+                    return;
+                }
+                else
+                {
+                    client.close();
+                    console.log("noMatch");
+                    res.send("noMatch");
+                    return;
+                }
+            }
+        });*/
+
+    });
 });
 
-var findUserwithMobile = function(db,data,callback) {
-    var cursor = db.collection('users').find(data);
-    cursor.each(function(err,doc) {
-        assert.equal(err,null);
-        if(doc != null)
-        {
-            console.log("ID: " + doc.UserID);
-            console.log("First Name: " + doc.FirstName);
-            console.log("Last Name: " + doc.LastName);
-            console.log("City: " + doc.City);
-        }
-    });
-};
+app.post('/register/*', function (req, res) {
+    var pathname = url.parse(req.url).pathname;
+    var userStart = pathname.indexOf("u=");
+    var userEnd = pathname.indexOf("&p=");
+    var user = pathname.substring(userStart+2, userEnd);
+    var password = pathname.substring(userEnd+3, pathname.length);
 
-var insertDocument = function(db, callback) {
-    db.collection('users').insertOne( {
-        "UserID": 17,
-        "FirstName" : "Cameron",
-        "LastName" : "LEcuyer",
-        "Mobile": "913-555-5555",
-        "City":"Shawnee"
-    }, function(err, result) {
-        assert.equal(err, null);
-        console.log("Inserted a document into users");
-        callback();
+    //console.log(user);
+    //console.log(password);
+
+    MongoClient.connect(urlDB, function(err, client) {
+        var db = client.db('clock');
+
+        if(err)
+        {
+            res.write("Failed, Error while connecting to Database");
+            res.end();
+        }
+
+        db.collection('lab5').insertOne( {
+            "Username" : user,
+            "Password" : password
+        }, function(err, result) {
+            assert.equal(err, null);
+            console.log("Inserted a document into users");
+            res.send("success");
+        });
     });
-};
+});
 
 app.listen(port, function() {
     console.log('app running')
