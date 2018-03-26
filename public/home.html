@@ -1,11 +1,22 @@
 <!DOCTYPE html>
-<html lang="en" ng-app="home">
+<html lang="en" ng-app="lab5">
 <head>
     <meta charset="UTF-8">
     <title>Home Page Lab5</title>
 </head>
 <body ng-controller="homeCtrl">
+    <div id="homeContainer">
+        <h1>User Details:</h1>
+        <input type="text" id="txt_color" placeholder="Enter Favorite Color"/>
+        <input type="text" id="txt_height" placeholder="Enter Height in Feet"/>
+        <input type="text" id="txt_weight" placeholder="Enter Weight in Pounds"/>
+        <button id="btn_update" ng-click="update()">Update Info</button>
+    </div>
 
+    <div id="homeDeleteContainer">
+        <h1>User Details:</h1>
+        <button id="btn_delete" ng-click="delete()">Delete Info</button>
+    </div>
     <script type="text/javascript" src="http://code.angularjs.org/1.6.4/angular.js"></script>
     <script src="app.js"></script>
 </body>

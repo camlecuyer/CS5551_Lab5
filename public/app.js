@@ -1,13 +1,13 @@
-
 // Declare app level module which depends on views, and components
-var login = angular.module('login',[]);
+var app = angular.module('lab5',[]);
 
-login.controller('loginCtrl', function ($scope, $http, $window)
+app.controller('loginCtrl', function ($scope, $http, $window)
 {
     $scope.login = function ()
     {
         var userid = document.getElementById("txt_userid").value;
         var userpass = document.getElementById("txt_userpass").value;
+        localStorage.setItem("user", userid);
 
         if (userid != "" && userpass != "")
         {
@@ -35,9 +35,7 @@ login.controller('loginCtrl', function ($scope, $http, $window)
     }
 });
 
-var register = angular.module('register',[]);
-
-register.controller('registerController',function($scope,$http,$window){
+app.controller('registerController',function($scope,$http,$window){
     $scope.register = function() {
 
         var userid = document.getElementById("txt_userid").value;
@@ -46,7 +44,7 @@ register.controller('registerController',function($scope,$http,$window){
         if (userid != "" && userpass != "")
         {
 
-            $http({url:"/register/u=" + userid + "&p=" + userpass , method: 'POST'}).then(function(data, status){
+            $http({url:"/register/u=" + userid + "&p=" + userpass, method: 'POST'}).then(function(data, status){
 
                 if(data.data == "fail") {
                     alert("Insertion Failed");
@@ -65,18 +63,35 @@ register.controller('registerController',function($scope,$http,$window){
     }
 });
 
-var home = angular.module('home',[]);
+app.controller('homeCtrl',function($scope,$http){
+    $scope.update = function() {
 
-/*register.controller('homeCtrl',function($scope,$http){
-    $scope.searchData = function() {
+        var user = localStorage.getItem("user");
+        var color = document.getElementById("txt_color").value;
+        var height = document.getElementById("txt_height").value;
+        var weight = document.getElementById("txt_weight").value;
 
-        var mobile = document.getElementById("txt_mobile").value;
-        console.log(mobile);
+        if (color != "" && height != "" && weight != "" && user != "") {
 
-        if (mobile != "") {
-
-            $http({url: "http://localhost:8081/register/" + mobile, method: 'POST'}).then(function (data, status) {
+            $http({url: "/update/u=" + user + "&c=" + color + "&h=" + height + "&w=" + weight, method: 'POST'}).then(function (data, status) {
+                if(data.data == "success") {
+                    alert("Insertion Succeeded");
+                }
             });
         }
     }
-});*/
+
+    $scope.delete = function() {
+
+        var user = localStorage.getItem("user");
+
+        if (user != "") {
+
+            $http({url: "/delete/u=" + user, method: 'POST'}).then(function (data, status) {
+                if(data.data == "success") {
+                    alert("Deletion Succeeded");
+                }
+            });
+        }
+    }
+});

@@ -5,6 +5,7 @@ var bodyParser = require("body-parser");
 var express = require('express');
 var cors = require('cors');
 var urlDB = "mongodb://cred:Mon_lock@ds115219.mlab.com:15219/clock";
+var amazon = require('geo-amazon');
 
 var app = express();
 app.use(cors());
@@ -129,6 +130,63 @@ app.post('/register/*', function (req, res) {
             console.log("Inserted a document into users");
             res.send("success");
         });
+    });
+});
+
+app.post('/update/*', function (req, res) {
+    var pathname = url.parse(req.url).pathname;
+    var userStart = pathname.indexOf("u=");
+    var colorStart = pathname.indexOf("&c=");
+    var colorEnd = pathname.indexOf("&h=");
+    var heightEnd = pathname.indexOf("&w=");
+    var user = pathname.substring(userStart+2, colorStart);
+    var color = pathname.substring(colorStart+3, colorEnd);
+    var height = pathname.substring(colorEnd+3, heightEnd);
+    var weight = pathname.substring(heightEnd+3, pathname.length);
+    var ama = amazon.store('US', {product: "D"});
+
+    //console.log(user);
+    //console.log(color);
+    //console.log(height);
+    //console.log(weight);
+    //console.log(ama);
+
+    MongoClient.connect(urlDB, function(err, client) {
+        var db = client.db('clock');
+
+        if(err)
+        {
+            res.write("Failed, Error while connecting to Database");
+            res.end();
+        }
+
+        db.collection('lab5').update( {"Username" : user}, {$set: {"Color":color, "Height":height,
+                "Weight": weight, "Amazon": ama}});
+
+        res.send("success");
+    });
+});
+
+app.post('/delete/*', function (req, res) {
+    var pathname = url.parse(req.url).pathname;
+    var userStart = pathname.indexOf("u=");
+    var user = pathname.substring(userStart+2, pathname.length);
+
+    //console.log(user);
+
+    MongoClient.connect(urlDB, function(err, client) {
+        var db = client.db('clock');
+
+        if(err)
+        {
+            res.write("Failed, Error while connecting to Database");
+            res.end();
+        }
+
+        db.collection('lab5').update( {"Username" : user}, {$unset: {"Color":"", "Height":"",
+                "Weight": "", "Amazon": ""}});
+
+        res.send("success");
     });
 });
 
