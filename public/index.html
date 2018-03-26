@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html  ng-app="login">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>Login Page Lab5</title>
+  <meta name="description" content="">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="app.css">
+
+</head>
+<body class="body">
+  <div  ng-controller="View1Ctrl">
+    <div id="div_SearchContainer">
+      <h1>Search for clothes!</h1>
+      <input type="text" id="txt_clothes" placeholder="Enter the type of clothes"/>
+      <button id="btn_getReview" ng-click="getClothes()">Get Clothes</button>
+    </div>
+    <div id="div_VenueList">
+      {{venue}}
+    </div>
+  </div>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular.js"></script>
+    <script src="app.js" type="text/javascript"></script>
+</body>
+</html>
