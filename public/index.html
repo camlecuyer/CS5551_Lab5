@@ -10,14 +10,12 @@
 
 </head>
 <body class="body">
-  <div  ng-controller="View1Ctrl">
-    <div id="div_SearchContainer">
-      <h1>Search for clothes!</h1>
-      <input type="text" id="txt_clothes" placeholder="Enter the type of clothes"/>
-      <button id="btn_getReview" ng-click="getClothes()">Get Clothes</button>
-    </div>
-    <div id="div_VenueList">
-      {{venue}}
+  <div  ng-controller="loginCtrl">
+    <div id="div_LoginContainer">
+      <h1>Login:</h1>
+      <input type="text" id="txt_userid" placeholder="Enter you Username"/>
+      <input type="text" id="txt_userpass" placeholder="Enter you Password"/>
+      <button id="btn_getReview" ng-click="login()">Get Clothes</button>
     </div>
   </div>
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular.js"></script>

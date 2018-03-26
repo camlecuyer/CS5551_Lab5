@@ -43,6 +43,30 @@ app.post('/register/*', function (req, res) {
     });
 });
 
+app.post('/login/*', function (req, res) {
+    var pathname = url.parse(req.url).pathname;
+    var userStart = pathname.indexOf("u=");
+    var userEnd = pathname.indexOf("&p=");
+    var user = pathname.substr(userStart+2, pathname - userEnd);
+    var password = pathname.substr(userEnd+3, pathname.length - 1);
+
+    console.log(user);
+    console.log(password);
+
+    /*MongoClient.connect(urlDB, function(err, client) {
+        var db = client.db('clock');
+        if(err)
+        {
+            res.write("Failed, Error while connecting to Database");
+            res.end();
+        }
+        findUserwithMobile(db, data, function() {
+            console.log("Successfully selected");
+            client.close();
+        });
+    });*/
+});
+
 var findUserwithMobile = function(db,data,callback) {
     var cursor = db.collection('users').find(data);
     cursor.each(function(err,doc) {

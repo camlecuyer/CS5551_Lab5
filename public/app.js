@@ -2,26 +2,31 @@
 // Declare app level module which depends on views, and components
 var login = angular.module('login',[]);
 
-login.controller('View1Ctrl', function ($scope, $http)
+login.controller('loginCtrl', function ($scope, $http)
 {
-    $scope.clothList = new Array();
-    $scope.getClothes = function ()
+    $scope.login = function ()
     {
-        var clothesEntered = document.getElementById("txt_clothes").value;
+        var userid = document.getElementById("txt_userid").value;
+        var userpass = document.getElementById("txt_userpass").value;
 
-        if (clothesEntered != "") {
+        if (userid != "" && userpass != "")
+        {
 
-            $http({url:"/api/" + clothesEntered, method: 'POST'}).then(function(data, status){
-                $scope.venue = data.data.title;
+            $http({url:"/login/u=" + userid + "&p=" + userpass , method: 'POST'}).then(function(data, status){
+
                 //alert(data.data.title);
             });
+        }
+        else
+        {
+            alert("Please enter a Username and Password");
         }
     }
 });
 
 var register = angular.module('register',[]);
 
-register.controller('MongoRestController',function($scope,$http){
+register.controller('registerController',function($scope,$http){
     $scope.searchData = function() {
 
         var mobile = document.getElementById("txt_mobile").value;
@@ -34,3 +39,19 @@ register.controller('MongoRestController',function($scope,$http){
         }
     }
 });
+
+var home = angular.module('home',[]);
+
+/*register.controller('homeCtrl',function($scope,$http){
+    $scope.searchData = function() {
+
+        var mobile = document.getElementById("txt_mobile").value;
+        console.log(mobile);
+
+        if (mobile != "") {
+
+            $http({url: "http://localhost:8081/register/" + mobile, method: 'POST'}).then(function (data, status) {
+            });
+        }
+    }
+});*/
