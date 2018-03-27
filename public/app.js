@@ -76,6 +76,7 @@ app.controller('homeCtrl',function($scope,$http){
             $http({url: "/update/u=" + user + "&c=" + color + "&h=" + height + "&w=" + weight, method: 'POST'}).then(function (data, status) {
                 if(data.data == "success") {
                     alert("Insertion Succeeded");
+                    $scope.init();
                 }
             });
         }
@@ -90,7 +91,32 @@ app.controller('homeCtrl',function($scope,$http){
             $http({url: "/delete/u=" + user, method: 'POST'}).then(function (data, status) {
                 if(data.data == "success") {
                     alert("Deletion Succeeded");
+                    $scope.init();
                 }
+            });
+        }
+    }
+
+    $scope.init = function ()
+    {
+        var user = localStorage.getItem("user");
+
+        if (user != "") {
+
+            $http({url:"/get/u=" + user, method: 'POST'}).then(function(data, status){
+                if(data.data == "fail") {
+                    alert("Reteival Failed");
+                }
+                else
+                {
+                    //alert(data.data.Username);
+                    $scope.user = data.data.Username;
+                    $scope.color = data.data.Color;
+                    $scope.height = data.data.Height;
+                    $scope.weight = data.data.Weight;
+                    $scope.amazon = data.data.Amazon;
+                }
+
             });
         }
     }

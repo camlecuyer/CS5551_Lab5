@@ -190,6 +190,34 @@ app.post('/delete/*', function (req, res) {
     });
 });
 
+app.post('/get/*', function (req, res) {
+    var pathname = url.parse(req.url).pathname;
+    var userStart = pathname.indexOf("u=");
+    var user = pathname.substring(userStart+2, pathname.length);
+
+    MongoClient.connect(urlDB, function(err, client) {
+        var db = client.db('clock');
+
+        if (err) {
+            res.write("Failed, Error while connecting to Database");
+            res.end();
+        }
+
+        db.collection('lab5').findOne({Username: user}, function (err, doc) {
+            if (doc == null) {
+                client.close();
+                console.log("fail");
+                res.send("fail");
+            }
+            assert.equal(err, null);
+
+            if (doc != null) {
+                res.send(doc);
+            }
+        });
+    });
+});
+
 app.listen(port, function() {
     console.log('app running')
 });
