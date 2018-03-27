@@ -70,36 +70,6 @@ app.post('/login/*', function (req, res) {
                 }
             }
         });
-
-        /*cursor.each(function(err,doc) {
-            if(doc == null)
-            {
-                client.close();
-                console.log("fail");
-                res.send("fail");
-                return;
-            }
-            assert.equal(err,null);
-
-            if(doc != null)
-            {
-                if(doc.Username == user && doc.Password == password)
-                {
-                    client.close();
-                    console.log("success");
-                    res.send("success");
-                    return;
-                }
-                else
-                {
-                    client.close();
-                    console.log("noMatch");
-                    res.send("noMatch");
-                    return;
-                }
-            }
-        });*/
-
     });
 });
 
